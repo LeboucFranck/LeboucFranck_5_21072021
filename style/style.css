@@ -19,7 +19,7 @@ header {
   border-top-left-radius: 50px;
   border-top-right-radius: 50px;
   text-align: center;
-  height: 100px;
+  height: 12vh;
   background-color: #7e846b;
   display: flex;
   justify-content: space-between;
@@ -43,7 +43,7 @@ footer {
   border-bottom-right-radius: 50px;
   font-size: 30px;
   text-align: center;
-  height: 100px;
+  height: 12vh;
   background-color: #7e846b;
 }
 
@@ -75,4 +75,45 @@ footer {
   white-space: nowrap;
   overflow: hidden;
   margin-top: 8px;
+}
+
+.container__img {
+  height: 300px;
+  width: 400px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  object-fit: cover;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+.container__produit{
+  height: 76vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 8px solid #7e846b;
+}
+.container {
+  display: flex;
+}
+
+.container__info {
+  background-color: #7e846b;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+/*  Page Panier */
+
+.panier {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.nom, .quantite, .prix, .total{
+  display: flex;
+  flex-flow: column wrap;
+  align-items: flex-start;
 }

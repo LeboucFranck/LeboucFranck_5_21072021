@@ -4,7 +4,53 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello World</title>
+    <script src="./js/produit.js"></script>
+    <title>Page d'un produit</title>
+    <link rel="stylesheet" href="./style/style.css" />
   </head>
-  <body></body>
+  <body>
+    <header>
+      <a href="./acceuil.html"
+        ><img
+          class="panier__logo"
+          src="./img/panier-d'achat-en-ligne.svg"
+          alt=""
+      /></a>
+      <h1>Orinoco</h1>
+      <img
+        class="panier__logo"
+        src="./img/panier-d'achat-en-ligne.svg"
+        alt="panier"
+      />
+    </header>
+    <main class="container__produit">
+      <div class="container">
+        <div class="container__img"></div>
+        <div class="container__info">
+          <h1 class="container__info__nom"></h1>
+          <p class="container__info__description"></p>
+          <span class="container__info__prix"></span>
+          <div class="container__info__quantite">
+            <label for="camera">Quantité :</label>
+            <input
+              id="camera"
+              type="number"
+              name="camera"
+              value="1"
+              min="1"
+              max="99"
+            />
+          </div>
+          <div class="product-card__infos__color">
+            <label for="lens">Lens :</label>
+            <select name="lens" id="lens"></select>
+          </div>
+          <a href="#">
+            <div class="container__info__btn">Ajouter au panier</div>
+          </a>
+        </div>
+      </div>
+    </main>
+    <footer>Contact</footer>
+  </body>
 </html>

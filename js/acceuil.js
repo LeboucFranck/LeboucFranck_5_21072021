@@ -13,20 +13,20 @@ function createProductCard(produit) {
   produitCard.classList.add("card");
 
   //création d'une balise a avec la classe card__lien dans la div card.
-  let produitLien = document.createElement("a");
-  produitCard.appendChild(produitLien);
-  produitLien.href = `produit.html?id=${produit._id}`;
-  produitLien.classList.add("card__lien");
+  let produitLink = document.createElement("a");
+  produitCard.appendChild(produitLink);
+  produitLink.href = `produit.html?id=${produit._id}`;
+  produitLink.classList.add("card__link");
 
   // création d'une div img dans la div a
-  let produitImg = document.createElement("div");
-  produitLien.appendChild(produitImg);
+  produitImg = document.createElement("div");
+  produitLink.appendChild(produitImg);
   produitImg.classList.add("card__img");
   produitImg.style.backgroundImage = `url('${produit.imageUrl}')`;
 
   //création div pour le nom et la description
   let produitInfo = document.createElement("div");
-  produitLien.appendChild(produitInfo);
+  produitLink.appendChild(produitInfo);
   produitInfo.classList.add("card__info");
 
   //ajout du nom
