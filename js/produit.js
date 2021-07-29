@@ -1,4 +1,5 @@
 const url = `http://localhost:3000/api/cameras/`;
+const id = searchId();
 
 // récupération de l'id dans l'url généré par la page acceuil.html
 function searchId() {
@@ -50,11 +51,11 @@ function produitData(produit) {
 function produitNombre() {
   if (camera.value > 0 && camera.value < 100) {
     const produitAjout = {
+      id: id,
       nom: document.querySelector(".container__info__nom").innerHTML,
-      prix: parseFloat(
-        document.querySelector(".container__info__prix").innerHTML
-      ),
+      prix: document.querySelector(".container__info__prix").innerHTML,
       quantite: parseFloat(document.querySelector("#camera").value),
+      option: document.querySelector("#lens").value,
     };
     return produitAjout;
   } else {
@@ -62,7 +63,7 @@ function produitNombre() {
   }
 }
 
-// fonction pour ajouter le produit au panier. 
+// fonction pour ajouter le produit au panier.
 function AjoutProduitPanier(produit) {
   let tableauProduit = [];
   if (localStorage.getItem("produit") !== null) {
@@ -72,7 +73,7 @@ function AjoutProduitPanier(produit) {
   localStorage.setItem("produit", JSON.stringify(tableauProduit));
 }
 
-// fonction qui écoute le click 
+// fonction qui écoute le click
 function ecouteclick() {
   document
     .querySelector(".container__info__btn")
@@ -84,7 +85,6 @@ function ecouteclick() {
 
 // fonction principal
 async function main() {
-  const id = searchId();
   const urlId = addIdUrl(id);
   const produit = await fetchproduct(urlId);
   produitData(produit);
