@@ -1,8 +1,7 @@
 const url = `http://localhost:3000/api/cameras/`;
-const id = searchId();
 
 // récupération de l'id dans l'url généré par la page acceuil.html
-function searchId() {
+function getId() {
   let params = new URL(document.location).searchParams;
   return params.get("id");
 }
@@ -13,8 +12,8 @@ function addIdUrl(id) {
 }
 
 //récupéré les info du produit
-async function fetchproduct(url) {
-  const results = await fetch(url).then((res) => {
+async function fetchProductById(id) {
+  const results = await fetch(url + id).then((res) => {
     return res.json();
   });
   return results;
@@ -29,7 +28,7 @@ function produitData(produit) {
   produitNom.innerHTML = produit.name;
 
   const produitDescription = document.querySelector(
-    ".container__info__description"
+    ".container__info__description",
   );
   produitDescription.innerHTML = produit.description;
 
@@ -47,50 +46,62 @@ function produitData(produit) {
   }
 }
 
-// function pour vérifier le nombre de produit.
-function produitNombre() {
-  if (camera.value > 0 && camera.value < 100) {
-    const produitAjout = {
-      id: id,
-      nom: document.querySelector(".container__info__nom").innerHTML,
-      prix: document.querySelector(".container__info__prix").innerHTML,
-      quantite: parseFloat(document.querySelector("#camera").value),
-      option: document.querySelector("#lens").value,
-    };
-    return produitAjout;
-  } else {
-    return false;
-  }
+// function pour vérifier le nombre produit
+
+function verificationNombreProduit(produit) {
+  return produit > 0 && produit < 100;
 }
 
-// fonction pour ajouter le produit au panier.
-function AjoutProduitPanier(produit) {
+// function pour récupérer les informations du produit
+
+function infoProduit(produit) {
+  const produitAjout = {
+    nom: produit.name,
+    prix: produit.price,
+    quantite: parseFloat(document.querySelector("#camera").value),
+    option: document.querySelector("#lens").value,
+    id: getId(),
+  };
+  return produitAjout;
+}
+
+// fonction pour vérifier le localStorage
+function verifVariableLocalStorage(variableLocalStorage) {
   let tableauProduit = [];
-  if (localStorage.getItem("produit") !== null) {
-    tableauProduit = JSON.parse(localStorage.getItem("produit"));
+  if (localStorage.getItem(variableLocalStorage) !== null) {
+    tableauProduit = JSON.parse(localStorage.getItem(variableLocalStorage));
   }
-  tableauProduit.push(produit);
-  localStorage.setItem("produit", JSON.stringify(tableauProduit));
+  return tableauProduit;
 }
 
-// fonction qui écoute le click
-function ecouteclick() {
-  document
-    .querySelector(".container__info__btn")
-    .addEventListener("click", () => {
-      let produit1 = produitNombre();
-      AjoutProduitPanier(produit1);
-    });
+// function pour ajouter le produit au localStorage
+
+function ajoutProduitLocalStorage(
+  variableLocalStorage,
+  tableauProduit,
+  produit,
+) {
+  tableauProduit.push(produit);
+  localStorage.setItem(variableLocalStorage, JSON.stringify(tableauProduit));
 }
 
 // fonction principal
 async function main() {
-  const urlId = addIdUrl(id);
-  const produit = await fetchproduct(urlId);
+  const urlId = addIdUrl(getId());
+  const produit = await fetchProductById(getId());
   produitData(produit);
-  ecouteclick();
-
-  console.log(localStorage.getItem("produit"));
+  document
+    .querySelector(".container__info__btn")
+    .addEventListener("click", () => {
+      if (verificationNombreProduit(camera.value) == true) {
+        ajoutProduitLocalStorage(
+          "produit",
+          verifVariableLocalStorage("produit"),
+          infoProduit(produit),
+        );
+      } else {
+      }
+    });
 }
 
 main();
