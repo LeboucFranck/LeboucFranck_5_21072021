@@ -12,7 +12,7 @@ function addIdUrl(id) {
 }
 
 //récupéré les info du produit
-async function fetchProductById(id) {
+async function recoverDataById(id) {
   const results = await fetch(url + id).then((res) => {
     return res.json();
   });
@@ -20,53 +20,53 @@ async function fetchProductById(id) {
 }
 
 //Mettre les données du produit dans la page html
-function produitData(produit) {
-  const produitImg = document.querySelector(".container__img");
-  produitImg.style.backgroundImage = `url('${produit.imageUrl}')`;
+function updateDataCard(product) {
+  const productImg = document.querySelector(".container__img");
+  productImg.style.backgroundImage = `url('${product.imageUrl}')`;
 
-  const produitNom = document.querySelector(".container__info__nom");
-  produitNom.innerHTML = produit.name;
+  const productName = document.querySelector(".container__info__nom");
+  productName.innerHTML = product.name;
 
-  const produitDescription = document.querySelector(
+  const productDescription = document.querySelector(
     ".container__info__description",
   );
-  produitDescription.innerHTML = produit.description;
+  productDescription.innerHTML = product.description;
 
-  const produitPrix = document.querySelector(".container__info__prix");
-  produitPrix.innerHTML = new Intl.NumberFormat("fr-FR", {
+  const productPrice = document.querySelector(".container__info__prix");
+  productPrice.innerHTML = new Intl.NumberFormat("fr-FR", {
     style: "currency",
     currency: "EUR",
-  }).format(produit.price / 100);
+  }).format(product.price / 100);
 
-  const produitLens = document.querySelector("#lens");
-  for (i = 0; i < produit.lenses.length; i++) {
+  const productLens = document.querySelector("#lens");
+  for (i = 0; i < product.lenses.length; i++) {
     let option = document.createElement("option");
-    option.innerHTML = produit.lenses[i];
-    produitLens.appendChild(option);
+    option.innerHTML = product.lenses[i];
+    productLens.appendChild(option);
   }
 }
 
 // function pour vérifier le nombre produit
 
-function verificationNombreProduit(produit) {
-  return produit > 0 && produit < 100;
+function quantityValid(quantity) {
+  return quantity > 0 && quantity < 100;
 }
 
 // function pour récupérer les informations du produit
 
-function infoProduit(produit) {
-  const produitAjout = {
-    nom: produit.name,
-    prix: produit.price,
-    quantite: parseFloat(document.querySelector("#camera").value),
+function createObjectForLocalStorage(product) {
+  const productLocalStorage = {
+    name: product.name,
+    price: product.price,
+    quantity: parseFloat(document.querySelector("#camera").value),
     option: document.querySelector("#lens").value,
     id: getId(),
   };
-  return produitAjout;
+  return productLocalStorage;
 }
 
 // fonction pour vérifier le localStorage
-function verifVariableLocalStorage(variableLocalStorage) {
+function verifyLocalStorage(variableLocalStorage) {
   let tableauProduit = [];
   if (localStorage.getItem(variableLocalStorage) !== null) {
     tableauProduit = JSON.parse(localStorage.getItem(variableLocalStorage));
@@ -76,11 +76,7 @@ function verifVariableLocalStorage(variableLocalStorage) {
 
 // function pour ajouter le produit au localStorage
 
-function ajoutProduitLocalStorage(
-  variableLocalStorage,
-  tableauProduit,
-  produit,
-) {
+function updateLocalStorage(variableLocalStorage, tableauProduit, produit) {
   tableauProduit.push(produit);
   localStorage.setItem(variableLocalStorage, JSON.stringify(tableauProduit));
 }
@@ -88,16 +84,16 @@ function ajoutProduitLocalStorage(
 // fonction principal
 async function main() {
   const urlId = addIdUrl(getId());
-  const produit = await fetchProductById(getId());
-  produitData(produit);
+  const product = await recoverDataById(getId());
+  produitData(product);
   document
     .querySelector(".container__info__btn")
     .addEventListener("click", () => {
-      if (verificationNombreProduit(camera.value) == true) {
-        ajoutProduitLocalStorage(
+      if (quantityValid(camera.value) == true) {
+        updateLocalStorage(
           "produit",
-          verifVariableLocalStorage("produit"),
-          infoProduit(produit),
+          verifyLocalStorage("produit"),
+          infoProduit(product),
         );
       } else {
       }

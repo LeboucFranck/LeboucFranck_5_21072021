@@ -1,13 +1,13 @@
 const url = `http://localhost:3000/api/cameras`;
 
-async function fetchProducts(url) {
+async function recoverData(url) {
   const results = await fetch(url).then((res) => {
     return res.json();
   });
   return results;
 }
 
-function createProductCard(produit) {
+function createCard(produit) {
   //création d'une balise div avec la classe card dans le main produits
   const produitCard = document.createElement("div");
   produitCard.classList.add("card");
@@ -43,13 +43,13 @@ function createProductCard(produit) {
 
   return produitCard;
 }
-async function addToDom() {
-  const produits = await fetchProducts(url);
+async function main() {
+  const produits = await recoverData(url);
   for (let resultat of produits) {
     document
       .querySelector("#produits")
-      .appendChild(createProductCard(resultat));
+      .appendChild(createCard(resultat));
   }
 }
 
-addToDom();
+main();
