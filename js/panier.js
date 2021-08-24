@@ -1,143 +1,132 @@
+const submit = document.querySelector("#submit");
+const name1 = document.querySelector("#name");
+const lastName = document.querySelector("#lastname");
+const postal = document.querySelector("#postal");
+const city = document.querySelector("#city");
+const adress = document.querySelector("#address");
+const mail = document.querySelector("#mail");
+
 // function qui récupére les données de localstorage
 
-function DataLocalStorage() {
-  return JSON.parse(localStorage.getItem("produit"));
+function DataLocalStorage(variable) {
+  return JSON.parse(localStorage.getItem(variable));
 }
 
 // function qui affiche les données du tableau Produit
-function afficheNom(tableau) {
-  let produitNom = document.createElement("tr");
-  document.querySelector("tbody").appendChild(produitNom);
+function displayOrdere(tableau) {
+  const ordere = document.createElement("tr");
+  document.querySelector("tbody").appendChild(ordere);
 
-  let produitNom2 = document.createElement("th");
-  produitNom.appendChild(produitNom2);
-  produitNom2.innerHTML = tableau.nom;
+  const productName = document.createElement("th");
+  ordere.appendChild(productName);
+  productName.innerHTML = tableau.name;
 
-  let produitQuantite = document.createElement("th");
-  produitNom.appendChild(produitQuantite);
-  produitQuantite.innerHTML = tableau.quantite;
+  const productQuantity = document.createElement("th");
+  ordere.appendChild(productQuantity);
+  productQuantity.innerHTML = tableau.quantity;
 
-  let produitPrix = document.createElement("th");
-  produitNom.appendChild(produitPrix);
-  produitPrix.innerHTML = new Intl.NumberFormat("fr-FR", {
+  const productOption = document.createElement("th");
+  ordere.appendChild(productOption);
+  productOption.innerHTML = tableau.option;
+
+  const productTotal = document.createElement("th");
+  ordere.appendChild(productTotal);
+  productTotal.innerHTML = new Intl.NumberFormat("fr-FR", {
     style: "currency",
     currency: "EUR",
-  }).format(tableau.prix / 100);
-
-  let produitOption = document.createElement("th");
-  produitNom.appendChild(produitOption);
-  produitOption.innerHTML = tableau.option;
-
-  let produitTotal = document.createElement("th");
-  produitNom.appendChild(produitTotal);
-  produitTotal.innerHTML = new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-  }).format((tableau.prix * tableau.quantite) / 100);
+  }).format((tableau.price * tableau.quantity) / 100);
 }
 
-// fonction pour formater un prix qui est en chaine de caractere
-function parseLocaleNumber(stringNumber, locale) {
-  let thousandSeparator = Intl.NumberFormat(locale)
-    .format(11111)
-    .replace(/\p{Number}/gu, "");
-  let decimalSeparator = Intl.NumberFormat(locale)
-    .format(1.1)
-    .replace(/\p{Number}/gu, "");
+// function panier vide
 
-  return parseFloat(
-    stringNumber
-      .replace(new RegExp("\\" + thousandSeparator, "g"), "")
-      .replace(new RegExp("\\" + decimalSeparator), "."),
-  );
+function emptyCart() {
+  const emptyTr = document.createElement("tr");
+  document.querySelector("tbody").appendChild(emptyTr);
+
+  const emptyTh = document.createElement("th");
+  emptyTr.appendChild(emptyTh);
+  emptyTh.innerHTML = "Votre panier est vide...";
+  emptyTh.className = "text-center";
+  emptyTh.setAttribute("colspan", 4);
 }
-
-// function pour vérifier la validé des information formulaire
 
 // function qui vas vérifier les informations du formulaire
 
-function verifdonne(a, b, c, d, e, f) {
-  return !a.value && !b.value && !c.value && !d.value && !e.value && !f.value;
+function validateForm(...inputs) {
+  return inputs.every((input) => {
+    return input.value !== "";
+  });
 }
 
-Function validateForm(...inputs){
-  inputs.every(input=>{input.value})} 
+// function pour créer l'object order
 
-function objetLocalStorage() {
+function objectOrderForCommand(tableau) {
   const order = {
     contact: {
-      firstName: Name.value,
-      lastName: LastName.value,
-      city: City.value,
-      address: Adress.value,
-      email: Mail.value,
+      firstName: name1.value,
+      lastName: lastName.value,
+      city: city.value,
+      address: adress.value,
+      email: mail.value,
     },
     products: tableau,
   };
   return order;
 }
-async function checkAndPostRequest(tableau, total) {
-  const submit = document.querySelector("#submit");
-  const Name = document.querySelector("#name");
-  const LastName = document.querySelector("#lastname");
-  const Postal = document.querySelector("#postal");
-  const City = document.querySelector("#city");
-  const Adress = document.querySelector("#adress");
-  const Mail = document.querySelector("#mail");
 
-  submit.addEventListener("click", (e) => {
-    if (
-      !Name.value &&
-      !LastName.value &&
-      !Postal.value &&
-      !City.value &&
-      !Adress.value &&
-      !Mail.value
-    ) {
-      console.log("error");
-    } else {
-      const order = {
-        contact: {
-          firstName: Name.value,
-          lastName: LastName.value,
-          city: City.value,
-          address: Adress.value,
-          email: Mail.value,
-        },
-        products: tableau,
-      };
-      console.log(order);
-      const options = {
-        method: "POST",
-        body: JSON.stringify(order),
-        headers: { "Content-Type": "application/json" },
-      };
-
-      fetch("http://localhost:3000/api/cameras/order", options)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          sessionStorage.setItem("orderId", data.orderId);
-          sessionStorage.setItem("total", total);
-          document.location.href = "confirmation.html";
-        });
-    }
-  });
+// function pour le format order
+function formatOrder(order) {
+  const formatOrder = {
+    method: "POST",
+    body: JSON.stringify(order),
+    headers: { "Content-Type": "application/json" },
+  };
+  return formatOrder;
 }
-// fonction principal du programme
+// function qui envoi l'ordre avec fetch
+async function sendOrder(url, option) {
+  const results = await fetch(url, option).then((res) => {
+    return res.json();
+  });
+  return results;
+}
 
-async function main() {
-  const tableauProduit = DataLocalStorage();
+// function qui met à jour sessionStorage
+function upDateSessionStorage(variable, value) {
+  sessionStorage.setItem(variable, value);
+}
+// function qui change de page
+function changePage(nameOfPage) {
+  document.location.href = nameOfPage;
+}
+
+function main() {
+  const tableauProduit = DataLocalStorage("produit");
   const produit = [];
   let total = 0;
-  for (i = 0; i < tableauProduit.length; i++) {
-    afficheNom(tableauProduit[i]);
-    produit.push(tableauProduit[i].id);
-    total += tableauProduit[i].prix;
-    console.log(total);
+  if (tableauProduit != undefined) {
+    for (i = 0; i < tableauProduit.length; i++) {
+      displayOrdere(tableauProduit[i]);
+      produit.push(tableauProduit[i].id);
+      total += tableauProduit[i].price;
+    }
+    submit.addEventListener("click", async (e) => {
+      if (validateForm(name1, lastName, city, adress, mail)) {
+        const numberOforder = await sendOrder(
+          "http://localhost:3000/api/cameras/order",
+          formatOrder(objectOrderForCommand(produit)),
+        );
+        upDateSessionStorage("orderId", numberOforder.orderId);
+        upDateSessionStorage("total", total);
+        localStorage.clear();
+        changePage("confirmation.html");
+      } else {
+        console.log("error");
+      }
+    });
+  } else {
+    emptyCart();
   }
-
-  await checkAndPostRequest(produit, total);
 }
 
 main();

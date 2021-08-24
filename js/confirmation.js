@@ -1,5 +1,5 @@
 function affichePrixEtOrder() {
-  const test = document.querySelector(".total");
+  const test = document.querySelector("#total");
   const test2 = document.querySelector("#orderid");
   test.innerHTML = new Intl.NumberFormat("fr-FR", {
     style: "currency",

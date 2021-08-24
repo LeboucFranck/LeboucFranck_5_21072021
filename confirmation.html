@@ -5,25 +5,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Confirmation de commande</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="./style/style.css" />
   </head>
-  <body>
-    <header>
-      <h1>Orinoco</h1>
-      <a href="./panier.html">
+  <body class="position-relative">
+    <nav class="navbar justify-content-center text-dark navbar-light">
+      <a
+        class="nav link text-dark text-decoration-none h-10 px-5"
+        href="accueil.html"
+        >Orinoco</a
+      >
+      <a class="w-50px px-5" href="./panier.html">
         <img
-          class="panier__logo"
+          class="icon-bar w-50px"
           src="./img/panier-d'achat-en-ligne.svg"
           alt="panier"
         />
       </a>
-    </header>
-    <main>
-      <h1>Le résumé de votre commande :</h1>
-      <div class="total">lol</div>
-      <div id="orderid">lol</div>
+    </nav>
+    <main class="container my-5">
+      <div class="card">
+        <div class="card-header">Votre commande :</div>
+        <div class="card-body">
+          <h5 class="card-title">
+            Merci pour la commande sur notre site internet.
+          </h5>
+          <p class="card-text">
+            Voici l'ordre de votre commande <span id="orderid"></span> pour un
+            total de <span id="total"></span>
+          </p>
+        </div>
+      </div>
     </main>
-    <footer>Contact</footer>
+    <footer
+      class="text-center text-dark p-3 position-absolute bottom-0 start-0 end-0"
+    >
+      <a>Contact</a>
+    </footer>
   </body>
   <script src="./js/confirmation.js"></script>
 </html>

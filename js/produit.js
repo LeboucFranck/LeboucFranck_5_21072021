@@ -22,7 +22,7 @@ async function recoverDataById(id) {
 //Mettre les données du produit dans la page html
 function updateDataCard(product) {
   const productImg = document.querySelector(".container__img");
-  productImg.style.backgroundImage = `url('${product.imageUrl}')`;
+  productImg.src = product.imageUrl;
 
   const productName = document.querySelector(".container__info__nom");
   productName.innerHTML = product.name;
@@ -81,11 +81,36 @@ function updateLocalStorage(variableLocalStorage, tableauProduit, produit) {
   localStorage.setItem(variableLocalStorage, JSON.stringify(tableauProduit));
 }
 
+// function pour un message d'erreur
+
+function error() {
+  const error = document.querySelector("#success");
+  error.className = "alert-danger btn position-absolute end-0";
+  window.requestAnimationFrame(function (time) {
+    window.requestAnimationFrame(function (time) {
+      error.innerHTML = "Mauvaise quantitée";
+      error.classList.add("test-animation");
+    });
+  });
+}
+
+// function pour un message de validation
+function valide() {
+  const valide = document.querySelector("#success");
+  valide.className = "alert-success btn  position-absolute end-0";
+  window.requestAnimationFrame(function (time) {
+    window.requestAnimationFrame(function (time) {
+      valide.innerHTML = "Article ajouté au panier";
+      valide.classList.add("test-animation");
+    });
+  });
+}
+
 // fonction principal
 async function main() {
   const urlId = addIdUrl(getId());
   const product = await recoverDataById(getId());
-  produitData(product);
+  updateDataCard(product);
   document
     .querySelector(".container__info__btn")
     .addEventListener("click", () => {
@@ -93,9 +118,11 @@ async function main() {
         updateLocalStorage(
           "produit",
           verifyLocalStorage("produit"),
-          infoProduit(product),
+          createObjectForLocalStorage(product),
         );
+        valide();
       } else {
+        error();
       }
     });
 }
