@@ -1,4 +1,4 @@
-function affichePrixEtOrder() {
+function displayOrderAndTotal() {
   const test = document.querySelector("#total");
   const test2 = document.querySelector("#orderid");
   test.innerHTML = new Intl.NumberFormat("fr-FR", {
@@ -9,7 +9,7 @@ function affichePrixEtOrder() {
 }
 
 function main() {
-  affichePrixEtOrder();
+  displayOrderAndTotal();
 }
 
 main();
