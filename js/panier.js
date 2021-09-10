@@ -41,7 +41,7 @@ function displayOrdere(tableau) {
   }).format((tableau.price * tableau.quantity) / 100);
 }
 
-// function panier vide
+// function panier  vide
 function emptyCart() {
   const emptyTr = document.createElement("tr");
   document.querySelector("tbody").appendChild(emptyTr);
@@ -74,15 +74,11 @@ function cartTotal(total) {
 }
 
 // function qui vas vérifier les informations du formulaire
-
-function validateForm(...inputs) {
-  return inputs.every((input) => {
-    return input.value !== "";
-  });
+function validateForm() {
+  return document.querySelector("form").checkValidity();
 }
 
 // function pour créer l'object order
-
 function objectOrderForCommand(tableau) {
   const order = {
     contact: {
@@ -125,10 +121,11 @@ function changePage(nameOfPage) {
 }
 
 function main() {
-  const arrayProduct = DataLocalStorage("produit");
-  const produit = [];
-  let total = 0;
-  if (arrayProduct != undefined) {
+  const varLocalStorage = "produit";
+  if (localStorage.getItem(varLocalStorage) !== null) {
+    const arrayProduct = DataLocalStorage(varLocalStorage);
+    const produit = [];
+    let total = 0;
     for (i = 0; i < arrayProduct.length; i++) {
       displayOrdere(arrayProduct[i]);
       produit.push(arrayProduct[i].id);
@@ -136,7 +133,7 @@ function main() {
     }
     cartTotal(total);
     submit.addEventListener("click", async (e) => {
-      if (validateForm(name1, lastName, city, adress, mail)) {
+      if (validateForm()) {
         const numberOforder = await sendOrder(
           "http://localhost:3000/api/cameras/order",
           formatOrder(objectOrderForCommand(produit)),

@@ -6,11 +6,6 @@ function getId() {
   return params.get("id");
 }
 
-//associé l'id à l'url de base
-function addIdUrl(id) {
-  return url + id;
-}
-
 //récupéré les info du produit
 async function recoverDataById(id) {
   const results = await fetch(url + id).then((res) => {
@@ -47,13 +42,11 @@ function updateDataCard(product) {
 }
 
 // function pour vérifier le nombre produit
-
 function quantityValid(quantity) {
   return quantity > 0 && quantity < 100;
 }
 
 // function pour récupérer les informations du produit
-
 function createObjectForLocalStorage(product) {
   const productLocalStorage = {
     name: product.name,
@@ -75,14 +68,12 @@ function verifyLocalStorage(variableLocalStorage) {
 }
 
 // function pour ajouter le produit au localStorage
-
 function updateLocalStorage(variableLocalStorage, tableauProduit, produit) {
   tableauProduit.push(produit);
   localStorage.setItem(variableLocalStorage, JSON.stringify(tableauProduit));
 }
 
 // function pour un message d'erreur
-
 function error() {
   const error = document.querySelector("#success");
   error.className = "alert-danger btn position-absolute end-0";
@@ -108,7 +99,6 @@ function valide() {
 
 // fonction principal
 async function main() {
-  const urlId = addIdUrl(getId());
   const product = await recoverDataById(getId());
   updateDataCard(product);
   document

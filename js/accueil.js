@@ -1,7 +1,7 @@
 const url = `http://localhost:3000/api/cameras`;
 
-async function recoverData(url) {
-  const results = await fetch(url).then((res) => {
+function recoverData(url) {
+  const results = fetch(url).then((res) => {
     return res.json();
   });
   return results;
