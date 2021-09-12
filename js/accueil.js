@@ -1,5 +1,6 @@
 const url = `http://localhost:3000/api/cameras`;
 
+// function qui permet de récupérer des données via une API
 function recoverData(url) {
   const results = fetch(url).then((res) => {
     return res.json();
@@ -7,6 +8,7 @@ function recoverData(url) {
   return results;
 }
 
+// function qui permet de créer les éléments html d'une CARD
 function createCard(produit) {
   const produitCard = document.createElement("div");
   produitCard.classList.add("col-md-4", "col-sm-6");
@@ -42,6 +44,7 @@ function createCard(produit) {
 
   return produitCard;
 }
+
 async function main() {
   const produits = await recoverData(url);
   for (let resultat of produits) {

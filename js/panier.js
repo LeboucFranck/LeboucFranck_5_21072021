@@ -115,6 +115,7 @@ async function sendOrder(url, option) {
 function upDateSessionStorage(variable, value) {
   sessionStorage.setItem(variable, value);
 }
+
 // function qui change de page
 function changePage(nameOfPage) {
   document.location.href = nameOfPage;
