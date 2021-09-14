@@ -5,10 +5,10 @@ function getId() {
   let params = new URL(document.location).searchParams;
   return params.get("id");
 }
-18
+18;
 //récupéré les info du produit
 async function recoverDataById(id) {
-  const results = await fetch(url + id).then((res) => {
+  const results = fetch(url + id).then((res) => {
     return res.json();
   });
   return results;

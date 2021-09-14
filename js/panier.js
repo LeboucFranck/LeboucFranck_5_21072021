@@ -105,7 +105,7 @@ function formatOrder(order) {
 
 // function qui envoi l'ordre avec fetch
 async function sendOrder(url, option) {
-  const results = await fetch(url, option).then((res) => {
+  const results = fetch(url, option).then((res) => {
     return res.json();
   });
   return results;
